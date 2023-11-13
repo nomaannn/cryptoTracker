@@ -27,13 +27,13 @@ export default function PriceToggle({priceType,handlePriceToggle}) {
           },
         }}
         >
-            <ToggleButton value="price" >
+            <ToggleButton value="prices" >
                 Price
             </ToggleButton>
-            <ToggleButton value="market_cap" >
+            <ToggleButton value="market_caps" >
                 Market Cap
             </ToggleButton>
-            <ToggleButton value="total_volume" >
+            <ToggleButton value="total_volumes" >
                 Total Volume
             </ToggleButton>
 

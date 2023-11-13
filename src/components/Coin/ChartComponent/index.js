@@ -1,6 +1,7 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto"; //Dont get rid of this
+import { convertNumber } from "../../../functions/convertNumbers";
 // import { convertNumbers } from "../../../functions/convertNumbers";
 
 function ChartComponent({ chartData, priceType, multiAxis }) {
@@ -15,7 +16,20 @@ function ChartComponent({ chartData, priceType, multiAxis }) {
             mode: "index",
             intersect: false,
         },
-
+        scales:{
+            y:{
+                ticks:{
+                    callback:function(value){
+                        if(priceType=="prices"){
+                            return "$"+value.toLocaleString()
+                        }
+                        else{
+                            return convertNumber(value)
+                        }
+                    }
+                }
+            }
+        }
 
     };
 

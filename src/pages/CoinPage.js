@@ -20,7 +20,8 @@ function CoinPage() {
     const [coinData, setCOinData] = useState();
     const [days, setDays] = useState(30);
     const [chartData, setChartData] = useState({})
-    const [priceType, setPriceType] = useState('price');
+    const [priceType, setPriceType] = useState('prices');
+
     const { id } = useParams()
     useEffect(() => {
         if (id) {
@@ -33,32 +34,20 @@ function CoinPage() {
         const data = await getCoinData(id)
         if (data) {
             coinObject(setCOinData, data)
-        }
-        const prices = await getCoinPrices(id, days)
+            const prices = await getCoinPrices(id, days,priceType)
         if (prices) {
             console.log("sdgdhjfgdjhfgdfhj")
-            setChartData({
-                labels: prices.map((data) => convertDate(data[0])),
-                datasets: [
-                    {
-                        data: prices.map((data) => data[1]),
-                        borderColor: "#3a80e9",
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0,
-                        backgroundColor: prices ? "transparent" : "rgba(58,128,233,0.1)",
-                        pointRadius: 0
-                    }
-                ]
-            })
+            settingChatData(setChartData, prices)
             setIsLoading(false)
         }
+        }
+        
     }
 
     const handleChange = async (event) => {
         setIsLoading(true)
         setDays(event.target.value);
-        const prices = await getCoinPrices(id, event.target.value)
+        const prices = await getCoinPrices(id, event.target.value,priceType)
         if (prices) {
             console.log("sdgdhjfgdjhfgdfhj")
             settingChatData(setChartData, prices)
@@ -70,10 +59,14 @@ function CoinPage() {
 
 
      
-    const handlePriceToggle= (event,newType)=>{
-        console.log(newType)
+    const handlePriceToggle= async(event,newType)=>{
+        setIsLoading(true)
         setPriceType(newType)
-
+        const prices = await getCoinPrices(id, days,newType)
+        if (prices) {
+            settingChatData(setChartData, prices)
+            setIsLoading(false)
+        }
       
     }
 
@@ -92,7 +85,7 @@ function CoinPage() {
                         <div className="wrapper">
                             <SelectDays handleChange={handleChange} days={days} />
                             <PriceToggle handlePriceToggle={handlePriceToggle} priceType={priceType}/>
-                            <ChartComponent chartData={chartData} />
+                            <ChartComponent chartData={chartData} priceType={priceType}/>
                         </div>
                         <CoinInfo heading={coinData.name} desc={coinData.desc} />
                     </>
