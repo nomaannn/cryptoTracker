@@ -1,0 +1,21 @@
+.coin_info_head {
+    padding-top: 2rem !important;
+}
+
+.coin_info_desc {
+    padding-bottom: 2rem !important;
+    cursor: pointer;
+}
+
+.coin_info_desc a {
+    text-decoration: underline;
+
+}
+
+.coin_info_desc a:hover {
+    color: var(--blue);
+}
+
+.coin_info_desc span {
+    color: var(--grey) !important;
+}
